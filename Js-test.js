@@ -1,50 +1,52 @@
-﻿/******************************************
+﻿
 
+
+/******************************************
 作者：张晓雷
 邮箱：zhangxiaolei@outlook.com
-
 ******************************************/
-function draw_Circle (canvas, x, y, r, para = Object.create(null)) {
-	canvas.beginPath();
-	canvas.lineWidth = para.lineWidth || 1;
-	canvas.strokeStyle = para.strokeStyle || "black";
-	canvas.moveTo(x + r , y);
-	canvas.arc(x  , y, r, Math.PI * 2, false);
 
-	if (para.outLine !== 0) {
-		canvas.stroke();
-	}
-	
-	if (para.fillStyle) {
-		canvas.fillStyle = para.fillStyle;
-		canvas.fill();
-	}
+
+function draw_Circle(canvas, x, y, r, para = Object.create(null)) {
+    canvas.beginPath();
+    canvas.lineWidth = para.lineWidth || 1;
+    canvas.strokeStyle = para.strokeStyle || "black";
+    canvas.moveTo(x + r, y);
+    canvas.arc(x, y, r, Math.PI * 2, false);
+
+    if (para.outLine !== 0) {
+        canvas.stroke();
+    }
+
+    if (para.fillStyle) {
+        canvas.fillStyle = para.fillStyle;
+        canvas.fill();
+    }
 }
 
-	function draw_Text(canvas, text, x, y, para = Object.create(null)) {
-		canvas.beginPath();
-		canvas.moveTo(x, y);
-		canvas.fillStyle = para.color || "black";
-		canvas.font = para.font || "13px Arial";
-		canvas.textAlign = para.textAlign || "center";
-		canvas.fillText(text, x, y);
-		canvas.stroke();
-	}
-
+function draw_Text(canvas, text, x, y, para = Object.create(null)) {
+    canvas.beginPath();
+    canvas.moveTo(x, y);
+    canvas.fillStyle = para.color || "black";
+    canvas.font = para.font || "13px Arial";
+    canvas.textAlign = para.textAlign || "center";
+    canvas.fillText(text, x, y);
+    canvas.stroke();
+}
 
 
 
 function fillZero(arr) {
-    let l = arr.length;
-    while (l--) {
-        arr[l] = 0;
+    let len = arr.length;
+    while (len--) {
+        arr[len] = 0;
     }
 }
 
 function fillList(arr) {
-    let l = arr.length;
-    while (l--) {
-        arr[l] = l + 1;
+    let len = arr.length;
+    while (len--) {
+        arr[len] = len + 1;
     }
     arr.reverse();
 }
@@ -62,7 +64,6 @@ function hanoi(n, list) {
     H(n, "a", "b", "c")
 }
 
-
 function Fline(canvas, path, width, color) {
     canvas.beginPath();
     canvas.lineWidth = width || "4";
@@ -76,31 +77,25 @@ function Fline(canvas, path, width, color) {
 }
 
 
-
-function Fcube (canvas, x, y, w, h, number) {
-    //c1.addColorStop(0, '#dbd5a4'); 
-    //c1.addColorStop(0.5, '');
-    //c1.addColorStop(1, "#649173")
-	canvas.beginPath();
-	canvas.fillStyle = "YellowGreen";
-	//canvas.strokeStyle = "#777";
-	canvas.lineWidth = 1;
-	canvas.moveTo(x - (w / 2 - h / 2), y);
-	canvas.arc(x - (w / 2 - h / 2), y - h / 2, h / 2, Math.PI * 0.5, Math.PI * 1.5, false);
-	canvas.lineTo(x + (w / 2 - h / 2), y - h);
-	canvas.arc(x + ( w / 2 - h / 2), y - h / 2, h / 2, Math.PI * 1.5, Math.PI * 0.5, false);
-	canvas.lineTo(x - (w / 2 - h / 2), y);
+function Fcube(canvas, x, y, w, h, number) {
+    canvas.beginPath();
+    canvas.fillStyle = "YellowGreen";
+    canvas.lineWidth = 1;
+    canvas.moveTo(x - (w / 2 - h / 2), y);
+    canvas.arc(x - (w / 2 - h / 2), y - h / 2, h / 2, Math.PI * 0.5, Math.PI * 1.5, false);
+    canvas.lineTo(x + (w / 2 - h / 2), y - h);
+    canvas.arc(x + (w / 2 - h / 2), y - h / 2, h / 2, Math.PI * 1.5, Math.PI * 0.5, false);
+    canvas.lineTo(x - (w / 2 - h / 2), y);
     canvas.closePath();
-	//canvas.stroke();
     canvas.fill();
 
-    draw_Circle (canvas, x, y - h/2, 8, {
-        fillStyle : "white",
-        outLine : 0
+    draw_Circle(canvas, x, y - h / 2, 8, {
+        fillStyle: "white",
+        outLine: 0
     });
 
-    draw_Text (canvas, number, x - 0.5,  y - h/2 + 5, {
-        color : "#555555"
+    draw_Text(canvas, number, x - 0.5, y - h / 2 + 5, {
+        color: "#555555"
     });
 }
 
@@ -150,10 +145,9 @@ function drawTower(x, y, tower) {
 let game_step = 0;
 
 
-function canvas_display () {
-
+function canvas_display() {
     draw_Text(pix, "第 " + game_step + " 步", 35, 20, {
-        color : "#666666",
+        color: "#666666",
     });
 }
 
@@ -175,9 +169,10 @@ function check_win_(list) {
 function check_win(list) {
     if (check_win_(list)) {
         Stop_timer();
+        clearInterval(stop_interval);
         draw_Text(pix, "YOU WIN !", 305, 220, {
-            font : "35px Arial",
-            color : "green"
+            font: "35px Arial",
+            color: "green"
         })
     }
 }
@@ -186,27 +181,27 @@ let timer_step = 0;
 
 let timer_stop;
 
-function Game_timer () {
+function Game_timer() {
     timer_step += 1;
-    pix.clearRect (300, 0, 600, 25);
+    pix.clearRect(300, 0, 600, 25);
     pix.globalAlpha = 1;
-    draw_Text (pix, timer_step + "秒", 590, 21, {
-        color : "blue",
-        textAlign : "right"
-    } )
+    draw_Text(pix, timer_step + "秒", 590, 21, {
+        color: "blue",
+        textAlign: "right"
+    })
 }
 
-function Run_timer () {
-    timer_stop = setInterval (Game_timer, 1000);
+function Run_timer() {
+    timer_stop = setInterval(Game_timer, 1000);
 }
 
-function Stop_timer () {
+function Stop_timer() {
     clearInterval(timer_stop);
     timer_step = 0;
 }
 
 
-tt = Object.create(null);
+let tt = Object.create(null);
 
 function refresh(floor) {
     tt.A = new Array(floor);
@@ -219,8 +214,6 @@ function refresh(floor) {
     hanoi(floor, tt.list);
     screenFresh();
 }
-
-
 
 let connect = false;
 
@@ -247,8 +240,6 @@ function takeAndPut(towerA, towerB) {
                     towerB.splice(j + 1, 1, tempA);
                     towerA.splice(tempA_index, 1, 0);
                     game_step += 1;
-                    //check_win(tt.C);
-                    //canvas_display();
                     return;
                 } else {
                     connect = true;
@@ -260,8 +251,6 @@ function takeAndPut(towerA, towerB) {
         towerB.splice(0, 1, tempA);
         towerA.splice(tempA_index, 1, 0);
         game_step += 1;
-        //check_win(tt.C);
-        //canvas_display();
     }
 }
 
@@ -280,8 +269,6 @@ function screenFresh() {
     canvas_display();
     check_win(tt.C);
 }
-
-
 
 function show_mode() {
     let p = tt.list.shift();
@@ -359,9 +346,13 @@ function pointXY(e) {
 }
 
 function canvas_mouse_down(event) {
+    //播放模式操作无效
 
-    let loc = pointXY(event);
-    let x = loc[0], y = loc[1];
+    if (!mode_select[2].checked) {
+        return;
+    }
+
+    let x = pointXY(event)[0];
 
     function equal2(m) {
         if (len(m) === 2) {
@@ -402,7 +393,6 @@ function canvas_mouse_down(event) {
         }
     } else if (x > 200 && x < 400) {
         //b
-
         if (move === "") {
             move = "b";
             if (tt.B[0] === 0) {
@@ -433,7 +423,6 @@ function canvas_mouse_down(event) {
 
     } else if (x > 400) {
 
-
         if (move === "") {
             move = "c";
             if (tt.C[0] === 0) {
@@ -455,7 +444,7 @@ function canvas_mouse_down(event) {
             } else {
                 cover(pix, "c", "green");
                 cor.green = true;
-            
+
             }
 
         } else if (move === "c") {
@@ -470,6 +459,8 @@ let mode_select = document.querySelector("#mode_list");
 
 let floor_ele = document.querySelector("#input_floor");
 
+let floor = parseInt(floor_ele.value);
+
 refresh(parseInt(floor_ele.value));
 
 let stop_interval;
@@ -478,32 +469,29 @@ let bt_run = document.querySelector("#bt_run");
 
 tt.hand = false;
 
-tt.gameStartYet = false;
-
 tt.gameRunning = false;
 
 bt_run.onclick = function () {
 
-    pix.clearRect (300, 0, 600, 25);
+    pix.clearRect(300, 0, 600, 25);
 
     move = "";
 
     if (!tt.hand) {
-        game_step = 0
-    } 
-
-    let floor = parseInt(floor_ele.value);
-
-    clearInterval(stop_interval);
-
-    tt.gameStartYet && Stop_timer();
+        game_step = 0;
+        clearInterval(stop_interval);
+    }
 
     if (mode_select[0].checked) {
-        //手动展示模式
+
+        //单步手动
 
         Stop_timer();
+
+        clearInterval(stop_interval);
+
         tt.gameRunning = false;
-        
+
         if (tt.hand) {
             show_mode();
         } else {
@@ -513,9 +501,12 @@ bt_run.onclick = function () {
         }
 
     } else if (mode_select[1].checked) {
-        //自动展示模式
+        
+        //播放模式
 
-        bt_run.innerText = "播放中…"
+        clearInterval(stop_interval);
+        bt_run.innerText = "演示中…"
+        game_step = 0;
         Stop_timer();
         refresh(floor);
         tt.hand = false;
@@ -526,16 +517,24 @@ bt_run.onclick = function () {
         }, 1000)
 
     } else if (mode_select[2].checked) {
-
-        // 游戏模式
-
+        //游戏模式
+        if(tt.gameRunning) {
+            if (confirm("游戏正在进行，是否结束？")) {
+                tt.gameRunning = false;
+                bt_run.innerText = "开始";
+                game_step = 0;
+                pix.clearRect(300, 0, 600, 25);
+                Stop_timer();
+                refresh(parseInt(floor_ele.value));
+            }
+        } else {
             bt_run.innerText = "游戏模式"
             game_step = 0;
             Run_timer();
             refresh(floor);
             tt.hand = false;
             tt.gameRunning = true;
-            tt.gameStartYet = true;
+        }
     }
 }
 
@@ -545,32 +544,28 @@ let temp_floor = tt.A.length;
 
 document.querySelector("#refresh").onclick = function () {
 
+    floor = parseInt(floor_ele.value);
+
     if (!tt.gameRunning) {
         clearInterval(stop_interval);
         bt_run.innerText = "开始";
         game_step = 0;
-        pix.clearRect (300, 0, 600, 25);
+        pix.clearRect(300, 0, 600, 25);
         Stop_timer();
-        refresh(parseInt(floor_ele.value));
+        refresh(parseInt(floor));
 
     } else {
-
-        if(confirm("游戏正在进行，是否结束？")) {
-
+        if (confirm("游戏正在进行，是否结束？")) {
             tt.gameRunning = false;
             bt_run.innerText = "开始";
             game_step = 0;
-            pix.clearRect (300, 0, 600, 25);
+            pix.clearRect(300, 0, 600, 25);
             Stop_timer();
-            refresh(parseInt(floor_ele.value));
-
+            refresh(parseInt(floor));
         }
-
     }
-
     sum_step = tt.list.length;
     temp_floor = tt.A.length;
-
 }
 
 //给层数添加一个总步数的提示
