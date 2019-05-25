@@ -1,0 +1,75 @@
+HTML {
+    background-color: #EEE;
+}
+
+#window {
+    text-align: center;
+    width : 650px;
+    margin: 3em auto;
+    border : 1px solid #DDD;
+    border-radius: 5px;
+    background-color: #FFF;
+    user-select:none;
+    -webkit-user-select: none;
+    box-shadow: 0 0 3px #CCC;
+}
+
+#canvas {
+    margin: 1em auto 0 auto;
+    /* background-image : linear-gradient(to left, #36d1dc ,#5b86e5); */
+    background-color: #FFF;
+    box-shadow: inset 2px 2px 5px #EEE, inset -2px 0 5px #EEE;
+}
+
+#tools{
+    color : #666;
+    padding: 0.2em;
+    font-size: 1em;
+}
+
+#tools_list {
+    margin: 0.3em;
+    height: 1.6em;
+}
+
+#floor_select {
+    margin-left: 0.8em;
+    float: left;
+}
+
+.floor{
+    float: left;
+    margin: 0 0.2em;
+}
+
+#input_floor {
+    width : 4em;
+}
+
+#refresh {
+    border : 1px solid #BBB;
+    width : 3em;
+    border-radius: 3px;
+}
+
+#game_mode{
+    float: left;
+}
+
+#bt_run {
+    float : right;
+    border : 1px solid #BBB;
+    margin-right: 0.8em;
+    width : 5em;
+    border-radius: 3px;
+}
+
+#bt_run:hover, #refresh:hover{
+    background-color: #EEE;
+}
+
+#bt_run:active, #refresh:active {
+    background-color: #DDD;
+}
+
+
