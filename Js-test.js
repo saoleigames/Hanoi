@@ -270,9 +270,8 @@ function screenFresh() {
     check_win(tt.C);
 }
 
-function show_mode() {
-    let p = tt.list.shift();
-    move_plate(p);
+function displayMode() {
+    move_plate(tt.list.shift());
     screenFresh();
 }
 
@@ -454,6 +453,16 @@ function canvas_mouse_down(event) {
     }
 }
 
+function restartGame (btName) {
+    Stop_timer();
+    clearInterval(stop_interval);
+    tt.gameRunning = false;
+    tt.hand = false;
+    bt_run.innerText = btName || "开始";
+    game_step = 0;
+    pix.clearRect(300, 0, 600, 25);
+    refresh(parseInt(floor));
+}
 
 let mode_select = document.querySelector("#mode_list");
 
@@ -477,93 +486,58 @@ bt_run.onclick = function () {
 
     move = "";
 
-    if (!tt.hand) {
-        game_step = 0;
-        clearInterval(stop_interval);
-    }
-
     if (mode_select[0].checked) {
 
         //单步手动
-
-        Stop_timer();
-
-        clearInterval(stop_interval);
-
-        tt.gameRunning = false;
-
         if (tt.hand) {
-            show_mode();
+            displayMode();
         } else {
-            refresh(floor);
-            bt_run.innerText = "下一步";
+            restartGame("下一步");
             tt.hand = true;
         }
 
     } else if (mode_select[1].checked) {
         
         //播放模式
-
-        clearInterval(stop_interval);
-        bt_run.innerText = "演示中…"
-        game_step = 0;
-        Stop_timer();
-        refresh(floor);
-        tt.hand = false;
-        tt.gameRunning = false;
-
+        restartGame("演示中…")
+     
         stop_interval = setInterval(function () {
-            show_mode();
+            displayMode();
         }, 1000)
 
     } else if (mode_select[2].checked) {
         //游戏模式
         if(tt.gameRunning) {
+
             if (confirm("游戏正在进行，是否结束？")) {
-                tt.gameRunning = false;
-                bt_run.innerText = "开始";
-                game_step = 0;
-                pix.clearRect(300, 0, 600, 25);
-                Stop_timer();
-                refresh(parseInt(floor_ele.value));
+                restartGame();
             }
+
         } else {
-            bt_run.innerText = "游戏模式"
-            game_step = 0;
+            restartGame("游戏模式");
             Run_timer();
-            refresh(floor);
             tt.hand = false;
             tt.gameRunning = true;
         }
     }
 }
 
-
 let sum_step = tt.list.length;
 let temp_floor = tt.A.length;
+
 
 document.querySelector("#refresh").onclick = function () {
 
     floor = parseInt(floor_ele.value);
 
-    if (!tt.gameRunning) {
-        clearInterval(stop_interval);
-        bt_run.innerText = "开始";
-        game_step = 0;
-        pix.clearRect(300, 0, 600, 25);
-        Stop_timer();
-        refresh(parseInt(floor));
-
-    } else {
+    if (tt.gameRunning) {
         if (confirm("游戏正在进行，是否结束？")) {
-            tt.gameRunning = false;
-            bt_run.innerText = "开始";
-            game_step = 0;
-            pix.clearRect(300, 0, 600, 25);
-            Stop_timer();
-            refresh(parseInt(floor));
+            restartGame();
         }
+    } else {
+        restartGame();
     }
+
     sum_step = tt.list.length;
     temp_floor = tt.A.length;
 }
